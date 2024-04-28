@@ -2,25 +2,32 @@ import constants
 import pandas as pd
 from sqlalchemy import create_engine
 import os
+import logger as logging
 
 
 class AutotraderPipeline:
 
-    def extract(self):
-        
-        """loop files in dir and pass to transform method"""
+    def __init__(self, db_user, db_password, db_host, db_port, db_name, db_table):
+        self.db_user = db_user
+        self.db_password = db_password
+        self.db_host = db_host
+        self.db_port = db_port
+        self.db_name = db_name
+        self.db_table = db_table
 
-        folder = constants.SOURCE_FOLDER_PATH
+    def extract(self, source_file_path):
+        
+        """loop source files in dir (.csv) then pass to transform method"""
 
         try:
             # TODO loop and append to create one df?
-            for file_name in os.listdir(folder):
-                source_file = os.path.join(folder, file_name)
+            for file_name in os.listdir(source_file_path):
+                source_file = os.path.join(source_file_path, file_name)
                 df = pd.read_csv(source_file)
                 self.transform(df)
 
         except Exception as e:
-            print(e)
+            logging.logger.error(f"Following error ocurring accessing source files - {e}")
 
     def transform(self, df):
         
@@ -32,7 +39,7 @@ class AutotraderPipeline:
 
         try:
             # remove '2019 (19 reg)' from year column
-            df['year'] = df['year'].str.replace(r' \(\d{2} reg\)' ,'', regex=True)
+            df['year'] = df['year'].str.replace(r" \(\d{2} reg\)" ,"", regex=True)
             # remove text from power column and convert to int
             df['power'] = df['power'].str.replace("BHP|PS", "", regex=True)
             df['power'] = df['power'].astype(int)
@@ -44,23 +51,35 @@ class AutotraderPipeline:
 
             self.load(df)
         except Exception as e:
-            print(f"Following error ocurred performing transformations {e}")
+            logging.logger.error(f"Following error ocurred performing transformations {e}")
 
     def load(self, df):
 
         """load data in target db table"""
 
         try:
-            conn_str = f"postgresql://{constants.DB_USER}:{constants.DB_PASSWORD}@{constants.DB_HOST}:{constants.DB_PORT}/{constants.DB_NAME}"
+            conn_str = f"postgresql://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
             db_engine = create_engine(conn_str)
 
             # Write data to PostgreSQL database
-            tbl = "autotrader_data"
-            df.to_sql(tbl, db_engine, if_exists='append', index=False)
+            df.to_sql(self.db_table, db_engine, if_exists='append', index=False)
 
             db_engine.dispose()
         except Exception as e:
-            print(e)
+            logging.logger.error(f"Following error ocurring attemping to load data in to posgres db = {e}")
 
-run_pipeline = AutotraderPipeline()
-run_pipeline.extract()
+db_user = constants.DB_USER
+db_password = constants.DB_PASSWORD
+db_host = constants.DB_HOST
+db_port = constants.DB_PORT
+db_name = constants.DB_NAME
+db_table = constants.DB_TABLE
+source_folder = constants.SOURCE_FOLDER_PATH
+
+run_pipeline = AutotraderPipeline(db_user, 
+                                  db_password, 
+                                  db_host, 
+                                  db_port, 
+                                  db_name,
+                                  db_table)
+run_pipeline.extract(source_folder)
