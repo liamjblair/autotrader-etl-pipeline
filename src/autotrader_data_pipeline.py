@@ -36,12 +36,11 @@ class AutotraderPipeline:
         
         """clean up dataframe ready for db load"""
 
-        #remove spaces from column names
+        # source file contain spaces in the column names
         df.columns = [col.strip() for col in df.columns]
-        print(df.dtypes)
 
         try:
-            # remove '2019 (19 reg)' from year column
+            # remove '(19 reg)' from '2019 (19 reg)' year column 
             df['year'] = df['year'].str.replace(r" \(\d{2} reg\)" ,"", regex=True)
             # remove text from power column and convert to int
             df['power'] = df['power'].str.replace("BHP|PS", "", regex=True)
@@ -51,8 +50,9 @@ class AutotraderPipeline:
             df["engine_size"] = df["engine_size"].astype(float)
 
             self.load(df)
+
         except Exception as e:
-            logging.logger.error(f"Following error ocurred performing transformations {e}")
+            logging.logger.error(f"Following error ocurred performing transformation - {e}")
 
     def load(self, df):
 
@@ -67,7 +67,8 @@ class AutotraderPipeline:
 
             db_engine.dispose()
         except Exception as e:
-            logging.logger.error(f"Following error ocurring attemping to load data in to posgres db = {e}")
+            logging.logger.error(f"Following error ocurring attemping to load data into posgres db - {e}")
+
 
 db_user = constants.DB_USER
 db_password = constants.DB_PASSWORD
