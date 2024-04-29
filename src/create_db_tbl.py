@@ -24,7 +24,7 @@ create_table_query = """
         engine_size varchar(10),
         power varchar(10),
         transmission varchar(25),
-        fueltype varchar(25),
+        fueltype varchar(50),
         url varchar(255)
     );
 """
