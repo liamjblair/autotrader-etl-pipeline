@@ -20,11 +20,14 @@ class AutotraderPipeline:
         """loop source files in dir (.csv) then pass to transform method"""
 
         try:
-            # TODO loop and append to create one df?
+            dfs = []
             for file_name in os.listdir(source_file_path):
                 source_file = os.path.join(source_file_path, file_name)
                 df = pd.read_csv(source_file)
-                self.transform(df)
+                dfs.append(df)
+
+            combined_df = pd.concat(dfs, ignore_index=True)
+            self.transform(combined_df)
 
         except Exception as e:
             logging.logger.error(f"Following error ocurring accessing source files - {e}")
@@ -46,8 +49,6 @@ class AutotraderPipeline:
             # convert engine_size into float
             df["engine_size"] = df["engine_size"].str.replace("L", "")
             df["engine_size"] = df["engine_size"].astype(float)
-
-            print(df.head())
 
             self.load(df)
         except Exception as e:
