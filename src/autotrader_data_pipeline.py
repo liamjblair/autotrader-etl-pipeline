@@ -1,8 +1,8 @@
-import constants
+
 import pandas as pd
 from sqlalchemy import create_engine
 import os
-import logger as logging
+from src.logger import logger
 
 
 class AutotraderPipeline:
@@ -30,7 +30,7 @@ class AutotraderPipeline:
             self.transform(combined_df)
 
         except Exception as e:
-            logging.logger.error(f"Following error ocurring accessing source files - {e}")
+            logger.error(f"Following error ocurring accessing source files - {e}")
 
     def transform(self, df):
         
@@ -52,7 +52,7 @@ class AutotraderPipeline:
             self.load(df)
 
         except Exception as e:
-            logging.logger.error(f"Following error ocurred performing transformation - {e}")
+            logger.error(f"Following error ocurred performing transformation - {e}")
 
     def load(self, df):
 
@@ -67,21 +67,21 @@ class AutotraderPipeline:
 
             db_engine.dispose()
         except Exception as e:
-            logging.logger.error(f"Following error ocurring attemping to load data into posgres db - {e}")
+            logger.error(f"Following error ocurring attemping to load data into posgres db - {e}")
 
 
-db_user = constants.DB_USER
-db_password = constants.DB_PASSWORD
-db_host = constants.DB_HOST
-db_port = constants.DB_PORT
-db_name = constants.DB_NAME
-db_table = constants.DB_TABLE
-source_folder = constants.SOURCE_FOLDER_PATH
+# db_user = constants.DB_USER
+# db_password = constants.DB_PASSWORD
+# db_host = constants.DB_HOST
+# db_port = constants.DB_PORT
+# db_name = constants.DB_NAME
+# db_table = constants.DB_TABLE
+# source_folder = constants.SOURCE_FOLDER_PATH
 
-run_pipeline = AutotraderPipeline(db_user, 
-                                  db_password, 
-                                  db_host, 
-                                  db_port, 
-                                  db_name,
-                                  db_table)
-run_pipeline.extract(source_folder)
+# run_pipeline = AutotraderPipeline(db_user, 
+#                                   db_password, 
+#                                   db_host, 
+#                                   db_port, 
+#                                   db_name,
+#                                   db_table)
+# run_pipeline.extract(source_folder)

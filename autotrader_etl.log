@@ -25,3 +25,18 @@ LINE 1: ...3sr&aggregatedTrim=D200&page=1'), (46745, ' SUV', ' 204PS', ...
 2024-04-29 21:22:37,988 - Logger - ERROR - Following error ocurring accessing source files - 'DataFrame' object has no attribute 'power'
 2024-04-29 21:23:26,510 - Logger - ERROR - Following error ocurring accessing source files - 'DataFrame' object has no attribute 'power'
 2024-04-29 21:23:51,642 - Logger - ERROR - Following error ocurred performing transformation - invalid literal for int() with base 10: ' Diesel'
+2024-05-05 20:17:13,597 - Logger - ERROR - Following error ocurring attemping to load data into posgres db - (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-05-05 20:19:06,556 - Logger - ERROR - Following error ocurring attemping to load data into posgres db - (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-05-05 20:36:53,436 - Logger - ERROR - Following error ocurring attemping to load data into posgres db - (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-05-05 20:37:00,974 - Logger - ERROR - Following error ocurring attemping to load data into posgres db - (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-05-05 20:37:19,636 - Logger - ERROR - Following error ocurring attemping to load data into posgres db - (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
