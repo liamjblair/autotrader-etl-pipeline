@@ -5,7 +5,7 @@
 This is a simple project I created for fun to practice ETL processes and routines. Source data is from my Autotrader Car Valuation project. The .csv's are extracted, transfromed and loaded into a dev posgress database.
 
 ## Skills/Technologies
-Python / ETL / Logging / PostgreSQL / Pandas / SQLAlchemy
+Python / ETL / Unit Tests / Logging / PostgreSQL / Pandas / SQLAlchemy
 
 ## Installation:
 Clone this repository to your local machine.
